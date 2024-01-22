@@ -1,8 +1,9 @@
 import React from "react";
-import { Box, Stack, Typography } from "@mui/material";
+import { Grid, Stack } from "@mui/material";
 import { useGetBooksQuery } from "../api/libraryApi";
 import Error from "./Error";
 import Loading from "./Loading";
+import SingleBook from "./SingleBook";
 
 /* TODO - 
     add your code to create a functional React component that displays all of
@@ -12,17 +13,18 @@ import Loading from "./Loading";
 const RenderBooks = ({ books }) => {
 	return (
 		<Stack sx={{ mt: 2, alignItems: "center" }}>
-			{books.map((book) => (
-				<Typography variant="h4" color="primary">
-					{book.title}
-				</Typography>
-			))}
+            <Grid container>
+                {books.map((book) => (
+                    <SingleBook book={book} key={book.id}/>
+                ))}
+            </Grid>
 		</Stack>
 	);
 };
 
 const Books = () => {
 	const { data, error, isLoading } = useGetBooksQuery();
+    console.log(data);
 
     if (isLoading) {
 		return <Loading isLoading={isLoading} />;
