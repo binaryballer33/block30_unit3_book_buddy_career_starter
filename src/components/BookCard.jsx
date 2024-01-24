@@ -1,5 +1,5 @@
 import React from "react";
-import { Grid, Box, Card, CardContent, CardMedia, Typography, Button, Tooltip, CardActions } from "@mui/material";
+import { Grid, Card, CardContent, CardMedia, Typography, Button, Tooltip, CardActions } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { capitalize } from "../utils/helperFunctions";
 

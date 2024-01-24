@@ -1,11 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { Grid, Stack, Typography } from "@mui/material";
-import { useGetBooksQuery, useRegisterMutation } from "../api/libraryApi";
-import Error from "./Error";
-import Loading from "./Loading";
-import BookCard from "./BookCard";
-import SearchBar from "./SearchBar";
-
+import { Grid, Stack } from "@mui/material";
+import { useGetBooksQuery } from "../api/libraryApi";
+import { Error, Loading, BookCard, SearchBar } from '../components'
 
 /* TODO - 
     add your code to create a functional React component that displays all of

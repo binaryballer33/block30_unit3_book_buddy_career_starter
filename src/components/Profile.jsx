@@ -2,8 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { Stack, Typography } from "@mui/material";
 import { useRegisterMutation } from "../api/libraryApi";
-import Error from "./Error";
-import Loading from "./Loading";
+import { Loading, Error } from "../components";
 
 
 const Profile = () => {

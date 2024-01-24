@@ -2,8 +2,7 @@ import React from "react";
 import { Card, CardContent, CardMedia, Typography, Button, Stack, Divider } from "@mui/material";
 import { useNavigate, useParams } from "react-router-dom";
 import { useGetBookQuery } from "../api/libraryApi";
-import Error from "./Error";
-import Loading from "./Loading";
+import { Loading, Error } from "../components";
 import { capitalize } from "../utils/helperFunctions";
 
 /* TODO: - 

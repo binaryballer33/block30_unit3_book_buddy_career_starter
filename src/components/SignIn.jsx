@@ -12,8 +12,7 @@ import {
 } from "@mui/material";
 import ClearIcon from '@mui/icons-material/Clear';
 import { useLoginMutation } from "../api/libraryApi";
-import Error from "./Error";
-import Loading from "./Loading";
+import { Loading, Error } from "../components";
 import { transformTextField } from "../utils/helperFunctions";
 
 const RenderSignIn = ({ width }) => {
