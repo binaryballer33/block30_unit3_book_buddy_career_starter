@@ -52,7 +52,7 @@ export const libraryApi = createApi({
 				}
 			})
 		}), 
-		getProfile: builder.mutation({
+		getProfile: builder.query({
 			query: (token) => ({
 				url: '/api/users/me',
 				method: "GET",
@@ -71,8 +71,9 @@ export const {
     useGetBooksQuery,
     useGetBookQuery,
 	useUpdateBookAvailabilityMutation,
+	
 	// auth endpoints
 	useRegisterMutation,
 	useLoginMutation,
-	useGetProfileMutation
+	useGetProfileQuery,
 } = libraryApi;

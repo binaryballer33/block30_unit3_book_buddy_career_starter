@@ -1,17 +1,17 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { libraryApi } from "../../api/libraryApi";
+import { libraryApi } from "../api/libraryApi";
 
-const bookSlice = createSlice({
-    name:"book",
-    initialState:[],
+const booksSlice = createSlice({
+    name:"books",
+    initialState: { books: [] },
     extraReducers: (builder) => { 
          // apart of removing the dispatching and exporting actions
          // this is why we need " reducerPath: "libraryApi" inside of the reducer store.js 
          // libraryApi.endpoints.getPlayers.matchFulfilled
         builder.addMatcher(libraryApi.endpoints.getBooks.matchFulfilled, (state, { payload }) => {
-            return payload.books
+            state.books = payload.books
         })
     }
 })
 
-export default bookSlice.reducer;
+export default booksSlice.reducer;

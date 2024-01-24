@@ -1,24 +1,29 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { libraryApi } from "../api/libraryApi"
 
+const initialState = { 
+    message: "",
+    token: "", 
+    user: { id: "", firstname: "", lastname: "", email: "", books: [] },
+}
+
 const authSlice = createSlice({
     name:"auth",
-    initialState: { token: "" },
+    initialState: initialState,
     extraReducers: (builder) => { 
-         // apart of removing the dispatching and exporting actions
-         // this is why we need " reducerPath: "libraryApi" inside of the reducer store.js 
-         // libraryApi.endpoints.getPlayers.matchFulfilled
         builder.addMatcher(libraryApi.endpoints.register.matchFulfilled, (state, { payload }) => {
-            return payload.token
+            state.token = payload.token
+            state.user = { ...payload.user, books: [] }
+            state.message = payload.message 
         })
         // I think I need one of these for login and getProfile
-        // builder.addMatcher(libraryApi.endpoints.login.matchFulfilled, (state, { payload }) => {
-        //     return payload.token
-        // })
-        // builder.addMatcher(libraryApi.endpoints.getProfile.matchFulfilled, (state, { payload }) => {
-        //     return payload
-        // })
+        builder.addMatcher(libraryApi.endpoints.login.matchFulfilled, (state, { payload }) => {
+            state.token = payload.token
+            state.message = payload.message 
+        })
+        builder.addMatcher(libraryApi.endpoints.getProfile.matchFulfilled, (state, { payload }) => {
+            state.user = { ...payload.user }
+        })
     }
-})
-
+});
 export default authSlice.reducer;

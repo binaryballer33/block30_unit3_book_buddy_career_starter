@@ -12,85 +12,84 @@ import {
 } from "@mui/material";
 import ClearIcon from '@mui/icons-material/Clear';
 import { useRegisterMutation } from "../api/libraryApi";
-import { Loading, Error } from "../components";
+import { Loading } from "../components";
 import { transformTextField } from "../utils/helperFunctions";
+import { useSelector } from "react-redux";
 
-const RenderSignUp = ({ width }) => {
+// TODO: - save the token in local storage and give a option to logout and it will remove the token from local storage
+const SignUp = ({ width }) => {
   const [formData, setFormData] = useState({ firstname: "", lastname: "", email: "", password: "" });
   const [focusedField, setFocusedField] = useState("");
   const textFields = ["First Name", "Last Name", "Email", "Password"];
+  const [register, { data, isLoading, isError }] = useRegisterMutation()
+  const message = useSelector((state) => state.auth.message);
+  const signUpMessage = message.toLowerCase().includes("registration") ? message : "Sign Up"
 
   const handleSubmit = async (event) => {
-      // TODO: make this work later once Full Stack Academy API is working
       event.preventDefault();
+      await register(formData)
   };
 
   const handleClearForm = () => {
     setFormData({ firstname: "", lastname: "", email: "", password: "" });
   }
 
-  return (
-    <Stack sx={{ width: "100%", height: "100vh", alignItems: "center", justifyContent: "center" }}>
-      <Paper 
-        component="form" 
-        elevation={3}
-        onSubmit={handleSubmit}
-        sx={{ p: 2, mt: 2, display: "flex", flexDirection: "column", gap: 2, width: width, minHeight: { md: 420 } }}
-      >
-        <Typography textAlign="center" variant="h4" color="primary">Sign Up</Typography>
-        
-        {/* Text Fields For The Sign Up Form */}
-        {textFields.map((textfield) => (
-          <TextField 
-            key={textfield}
-            id={transformTextField(textfield)} 
-            label={textfield}
-            required 
-            value={formData[transformTextField(textfield)]} 
-            placeholder={`Type Your ${textfield} Here`}
-            // need a timeout to stop the onBlur from firing before the onClick event of the IconButton
-            onChange={(event) => setFormData({...formData, [transformTextField(textfield)]: event.target.value})} 
-            onFocus={() => setFocusedField(transformTextField(textfield))}
-            InputProps={{
-              endAdornment: (
-                // only show the clear icon if the textfield is focused and the textfield is not empty
-                focusedField === transformTextField(textfield) && formData[transformTextField(textfield)] !== "" && (
-                  <InputAdornment position="end">
-                    <Tooltip title="Clear Search Box">
-                      <IconButton onClick={() => setFormData({...formData, [transformTextField(textfield)]: "" })}>
-                        <ClearIcon color="primary"/>
-                      </IconButton>
-                    </Tooltip>
-                  </InputAdornment>
-                )
-              ),
-            }}
-            sx={{ width: "90%", ml: "auto", mr: "auto" }}  
-          />
-        ))}
-        
-        <Box sx={{ display: "flex", flexDirection: { xs: "column", md: "row" }, placeItems: { xs: "center", md: "normal" }, justifyContent: { md: "center" } }} gap={1}>
+  if (isLoading) {
+    return <Loading isLoading={isLoading} />;
+  } else {
+    return (
+      <Stack sx={{ width: "100%", height: "100vh", alignItems: "center", justifyContent: "center" }}>
+        <Paper 
+          component="form" 
+          elevation={3}
+          onSubmit={handleSubmit}
+          sx={{ p: 2, mt: 2, display: "flex", flexDirection: "column", gap: 2, width: width, minHeight: { md: 420 } }}
+        >
+          <Typography textAlign="center" variant="h4" color="primary">
+            {signUpMessage}
+          </Typography>
+          
+          {/* Text Fields For The Sign Up Form */}
+          {textFields.map((textfield) => (
+            <TextField 
+              key={textfield}
+              id={transformTextField(textfield)} 
+              label={textfield}
+              required 
+              value={formData[transformTextField(textfield)]} 
+              placeholder={`Type Your ${textfield} Here`}
+              // need a timeout to stop the onBlur from firing before the onClick event of the IconButton
+              onChange={(event) => setFormData({...formData, [transformTextField(textfield)]: event.target.value})} 
+              onFocus={() => setFocusedField(transformTextField(textfield))}
+              InputProps={{
+                endAdornment: (
+                  // only show the clear icon if the textfield is focused and the textfield is not empty
+                  focusedField === transformTextField(textfield) && formData[transformTextField(textfield)] !== "" && (
+                    <InputAdornment position="end">
+                      <Tooltip title="Clear Search Box">
+                        <IconButton onClick={() => setFormData({...formData, [transformTextField(textfield)]: "" })}>
+                          <ClearIcon color="primary"/>
+                        </IconButton>
+                      </Tooltip>
+                    </InputAdornment>
+                  )
+                ),
+              }}
+              sx={{ width: "90%", ml: "auto", mr: "auto" }}  
+            />
+          ))}
+          
+          <Box sx={{ display: "flex", flexDirection: { xs: "column", md: "row" }, placeItems: { xs: "center", md: "normal" }, justifyContent: { md: "center" } }} gap={1}>
             <Button variant="contained" color="primary" sx={{ width: {  xs: "90%", md: "45%" } }} onClick={handleClearForm}>Clear Form</Button>
             <Button variant="contained" color="primary" type="submit" sx={{ width: {  xs: "90%", md: "45%" } }}>Submit</Button>
-        </Box>
-      </Paper>
-    </Stack>
-  );
-}
+          </Box>
 
-const SignUp = ({ width }) => {
-  // TODO: get this working once Full Stack Academy API is working
-  // const user = { firstname: "Shaquille", lastname: "Mandy", email: "test333@gmail.com", password: "password333" }
-  // const { data, error, isLoading } = useRegisterMutation(user)
-  // if (isLoading) {
-  // 	return <Loading isLoading={isLoading} />;
-  // } else if (!data) {
-  // 	return <Error error={error} />;
-  // } else {
-  // 	console.log(data);
-  // }
-
-  return <RenderSignUp width={width} />
+          {/* Error Message */}
+          { isError && <Typography variant="h5" color="red" textAlign="center">User Already Exists</Typography> }
+        </Paper>
+      </Stack>
+    );
+  }
 };
 
 export default SignUp;

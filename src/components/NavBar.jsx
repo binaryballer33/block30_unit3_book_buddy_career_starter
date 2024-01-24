@@ -5,6 +5,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import PersonIcon from '@mui/icons-material/Person';
 import bookLogo from "../assets/books.png"
 
+// TODO: - give a option to logout and it will remove the token from local storage, if trying to log out when not logged in, do nothing
 const NavBar = () => {
     // links and account options
     const pages = ['Auth'];

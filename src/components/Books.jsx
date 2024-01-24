@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Grid, Stack } from "@mui/material";
 import { useGetBooksQuery } from "../api/libraryApi";
 import { Error, Loading, BookCard, SearchBar } from '../components'
+import { useSelector } from "react-redux";
 
 /* TODO - 
     add your code to create a functional React component that displays all of
@@ -11,11 +12,14 @@ import { Error, Loading, BookCard, SearchBar } from '../components'
 const RenderBooks = ({ books }) => {
 	const [searchString, setSearchString] = useState("");
 	const [filteredBooks, setFilteredBooks] = useState(books)
+	const booksArray = useSelector((state) => state.books);
 
 	useEffect(() => {
 		const latestFilter = books.filter(book => book.title.toLowerCase().includes(searchString.toLowerCase()))
 		setFilteredBooks(latestFilter)
 	}, [searchString, books])
+
+	console.log(booksArray);
 
 	return (
 		<Stack sx={{ mt: 2, alignItems: "center" }}>
