@@ -13,19 +13,66 @@ export const libraryApi = createApi({
 	}),
 	// Define endpoints for our API service
 	endpoints: (builder) => ({
-		// Define an endpoint that fetches players
-		// The part of the URL that comes after the baseUrl for this specific endpoint
+		// book endpoints
 		getBooks: builder.query({
 			query: () => "/api/books",
 		}),
 		getBook: builder.query({
 			query: (id) => `/api/books/${id}`,
 		}),
+		updateBookAvailability: builder.mutation({
+			query: (book) => ({
+				url: `/api/books/${book.id}`,
+				method: 'PATCH',
+				body: { available: book.availability }, 
+				headers: {
+					'Content-Type': 'application/json',
+					'Authorization': `Bearer ${book.token}`
+				},
+			}),
+		}),
+		// auth endpoints
+		register: builder.mutation({
+			query: (user) => ({
+				url: '/api/users/register',
+				method: "POST",
+				body: user,
+				headers: {
+					'Content-Type': 'application/json',
+				}
+			})
+		}), 
+		login: builder.mutation({
+			query: (user) => ({
+				url: '/api/users/login',
+				method: "POST",
+				body: user,
+				headers: {
+					'Content-Type': 'application/json',
+				}
+			})
+		}), 
+		getProfile: builder.mutation({
+			query: (token) => ({
+				url: '/api/users/me',
+				method: "GET",
+				headers: {
+					'Content-Type': 'application/json',
+					'Authorization': `Bearer ${token}`
+				}
+			})
+		}), 
 	}),
 });
 
 // Export hooks for each endpoint - in this case, a React hook that triggers the fetchPlayers query
 export const {
+	// book endpoints
     useGetBooksQuery,
-    useGetBookQuery
+    useGetBookQuery,
+	useUpdateBookAvailabilityMutation,
+	// auth endpoints
+	useRegisterMutation,
+	useLoginMutation,
+	useGetProfileMutation
 } = libraryApi;
