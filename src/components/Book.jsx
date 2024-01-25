@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
-import { Card, CardContent, CardMedia, Typography, Button, Stack, Divider } from "@mui/material";
+import { Card, CardContent, CardMedia, Typography, Button, Stack, Divider, Box } from "@mui/material";
 import { useNavigate, useParams } from "react-router-dom";
 import { useGetBookQuery, useUpdateBookAvailabilityMutation } from "../api/libraryApi";
 import { Loading, Error } from "../components";
@@ -8,18 +7,14 @@ import { capitalize } from "../utils/helperFunctions";
 
 /* TODO: - 
     You may consider conditionally rendering a 'Checkout' button for logged in users.
-    Get the book to update in real time using useState
 */
 const RenderBook = ({ book }) => {
     const { id } = useParams();
     const navigate = useNavigate();
-    const availabilityColor = book?.available ? "green" : "red";
     const [updateAvailability, { data, isLoading, isError }] = useUpdateBookAvailabilityMutation()
-    const token = useSelector((state) => state.auth.token);
-    // const [books, setBooks] = useState(useSelector((state) => state.books.books));
-    // const [modifiableBook, setModifiableBook] = useState(book);
-    // console.log("Books: ", books);
-
+    const token = localStorage.getItem("token");
+    const [modifiableBook, setModifiableBook] = useState(book);
+    const availabilityColor = modifiableBook?.available ? "green" : "red";
 
     // capitalize the first letter of each word in the book description
     const bookDescription = capitalize(book.description);
@@ -29,23 +24,9 @@ const RenderBook = ({ book }) => {
         navigate(-1);
     }
 
-    // TODO: it works, fix it more later, right now it only shows the updated availability after you refresh the page
-    // TODO: - have it update the state so that the change is reflected immediately
     const handleUpdateBookAvailability = async () => {
-        console.log(await updateAvailability({ id: id, availability: !book.available, token: token}))
-        
-        // update the state of the books array
-        // const updatedBooks = books.map((book) => {
-        //     if (book.id === id) {
-        //         return { ...book, available: !book.available }
-        //     } else {
-        //         return book
-        //     }
-        // })
-        // setBooks(updatedBooks)
-
-        // update the state of the book
-        // book.available = !book.available;  // book is ready only, can't reassign it
+        const changedBook = await updateAvailability({ id: id, availability: !modifiableBook.available, token: token})
+        setModifiableBook(changedBook.data.book)
     }
 
     if (isLoading) {
@@ -54,16 +35,18 @@ const RenderBook = ({ book }) => {
         return <Error error={isError} />;
     } else {
         return (
-            <Stack alignItems="center" justifyContent="center" height="99vh">
-                <Button variant="contained" color="primary" sx={{ marginBottom: 2 }} onClick={handleUpdateBookAvailability}>Toggle Availability</Button>
-                
+            <Stack sx={{ alignItems: "center", justifyContent: "center", height: "99vh", flexDirection: { xs: "column", md: "row" } }}>
+                <Box sx={{  }}>
+                    <Button variant="contained" color="primary" sx={{ marginBottom: 2, marginRight: 5 }} onClick={handleUpdateBookAvailability}>Toggle Availability</Button>
+                </Box>
+
                 <Card elevation={3} sx={{ width: { xs: "90%", md: "40%" }, height: "85%", overflow: "scroll", m:1, textAlign: "center", border: `3px solid ${availabilityColor}`}}>
-                    <CardMedia image={book.coverimage} alt={book.title} component="img" sx={{ width: "100%", height: 400, objectFit: "fill" }} />
+                    <CardMedia image={modifiableBook.coverimage} alt={modifiableBook.title} component="img" sx={{ width: "100%", height: 400, objectFit: "fill" }} />
                     <CardContent>
-                        <Typography variant="h4" sx={{ marginBottom: 1 }}>{capitalize(book.title)}</Typography>
+                        <Typography variant="h4" sx={{ marginBottom: 1 }}>{capitalize(modifiableBook.title)}</Typography>
                         <Divider sx={{ marginBottom: 1, width: "50%", ml: "auto", mr: "auto", border: "1px solid" }}/>
-                        <Typography variant="body2" sx={{ marginBottom: 1, fontWeight: "bold" }}>Author: {book.author}</Typography>
-                        <Typography variant="body1" sx={{ marginBottom: .5 }}>Available: <span style={{ color: availabilityColor, fontWeight: "bolder" }}>{book?.available?.toString()}</span></Typography>
+                        <Typography variant="body2" sx={{ marginBottom: 1, fontWeight: "bold" }}>Author: {modifiableBook.author}</Typography>
+                        <Typography variant="body1" sx={{ marginBottom: .5 }}>Available: <span style={{ color: availabilityColor, fontWeight: "bolder" }}>{modifiableBook?.available?.toString()}</span></Typography>
                         <Typography variant="body2" sx={{ marginBottom: 3, width: { xs: "100%", md: "450px" }, ml: "auto", mr: "auto" }}>{capitalize(bookDescription)}</Typography>
                         <Button variant="contained" color="primary" sx={{ marginBottom: 2 }} onClick={handleClick}>Go Back To Library</Button>
                     </CardContent>

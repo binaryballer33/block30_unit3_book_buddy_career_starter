@@ -15,19 +15,23 @@ import { useRegisterMutation } from "../api/libraryApi";
 import { Loading } from "../components";
 import { transformTextField } from "../utils/helperFunctions";
 import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 
-// TODO: - save the token in local storage and give a option to logout and it will remove the token from local storage
+// TODO: - maybe do a redirect once the user signs in, to the home page with the books
 const SignUp = ({ width }) => {
   const [formData, setFormData] = useState({ firstname: "", lastname: "", email: "", password: "" });
   const [focusedField, setFocusedField] = useState("");
   const textFields = ["First Name", "Last Name", "Email", "Password"];
   const [register, { data, isLoading, isError }] = useRegisterMutation()
+  const token = localStorage.getItem("token")
   const message = useSelector((state) => state.auth.message);
-  const signUpMessage = message.toLowerCase().includes("registration") ? message : "Sign Up"
+  const signUpMessage = message.toLowerCase().includes("registration") && token ? message : "Sign Up"
 
   const handleSubmit = async (event) => {
-      event.preventDefault();
-      await register(formData)
+    event.preventDefault();
+    const { data: { token } } = await register(formData)
+    handleClearForm();
+    if (token) localStorage.setItem("token", token);
   };
 
   const handleClearForm = () => {
@@ -36,6 +40,14 @@ const SignUp = ({ width }) => {
 
   if (isLoading) {
     return <Loading isLoading={isLoading} />;
+  } else if (token) {
+    return (
+      <Stack sx={{ width: "100%", height: "100vh", alignItems: "center", justifyContent: "center" }}>
+        <Typography textAlign="center" variant="h4" color="primary">
+          You Are Already Logged In,  <Link to="/logout" style={{ textDecoration: "none", color: "green"}}>Sign Out</Link> If You Want To Register For A New Account
+        </Typography>
+      </Stack>
+    );
   } else {
     return (
       <Stack sx={{ width: "100%", height: "100vh", alignItems: "center", justifyContent: "center" }}>

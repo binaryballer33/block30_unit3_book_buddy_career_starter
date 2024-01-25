@@ -16,9 +16,8 @@ const authSlice = createSlice({
             state.user = { ...payload.user, books: [] }
             state.message = payload.message 
         })
-        // I think I need one of these for login and getProfile
         builder.addMatcher(libraryApi.endpoints.login.matchFulfilled, (state, { payload }) => {
-            state.token = payload.token
+            state.token
             state.message = payload.message 
         })
         builder.addMatcher(libraryApi.endpoints.getProfile.matchFulfilled, (state, { payload }) => {

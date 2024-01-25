@@ -11,3 +11,4 @@ export { default as Book } from './Book';
 export { default as NavBar } from './NavBar';
 export { default as Profile } from './Profile';
 export { default as SavedBooks } from './SavedBooks';
+export { default as LogOut } from './LogOut';

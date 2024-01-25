@@ -9,7 +9,7 @@ import bookLogo from "../assets/books.png"
 const NavBar = () => {
     // links and account options
     const pages = ['Auth'];
-    const settings = ['Profile', 'Saved Books', 'Sign In', 'Sign Up'];
+    const settings = ['Profile', 'Saved Books', 'Sign In', 'Sign Up', 'Log Out'];
 
     // state variables
     const [anchorElNav, setAnchorElNav] = useState(null);

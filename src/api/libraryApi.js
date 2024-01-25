@@ -20,6 +20,15 @@ export const libraryApi = createApi({
 		getBook: builder.query({
 			query: (id) => `/api/books/${id}`,
 		}),
+		getReservations: builder.query({
+			query: () => ({
+				url: '/api/reservations',
+				method: "GET",
+				headers: {
+					'Content-Type': 'application/json',
+				}
+			})
+		}),  
 		updateBookAvailability: builder.mutation({
 			query: (book) => ({
 				url: `/api/books/${book.id}`,
@@ -31,6 +40,7 @@ export const libraryApi = createApi({
 				},
 			}),
 		}),
+
 		// auth endpoints
 		register: builder.mutation({
 			query: (user) => ({
@@ -51,7 +61,7 @@ export const libraryApi = createApi({
 					'Content-Type': 'application/json',
 				}
 			})
-		}), 
+		}),
 		getProfile: builder.query({
 			query: (token) => ({
 				url: '/api/users/me',

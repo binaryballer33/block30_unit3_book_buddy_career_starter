@@ -16,27 +16,35 @@ import { useLoginMutation } from "../api/libraryApi";
 import { Loading } from "../components";
 import { transformTextField } from "../utils/helperFunctions";
 
-// TODO: - save the token in local storage and give a option to logout and it will remove the token from local storage
+// TODO: - maybe do a redirect once the user signs in, to the home page with the books
 const SignIn = ({ width }) => {
     const [formData, setFormData] = useState({ email: "", password: "" });
     const [focusedField, setFocusedField] = useState("");
     const textFields = ["Email", "Password"];
     const [login, { data, isLoading, isError }] = useLoginMutation();
+    const token = localStorage.getItem("token")
     const message = useSelector((state) => state.auth.message);
-    const signInMessage = message.toLowerCase().includes("login") ? message : "Sign In"
+    const signInMessage = message.toLowerCase().includes("login") && token ? message : "Sign In"
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        await login(formData)
+        const { data: { token } } = await login(formData)
+        handleClearForm();
+        if (token) localStorage.setItem("token", token);
     };
 
     const handleClearForm = () => {
         setFormData({ email: "", password: "" });
     }
 
-    // Return the appropriate component based on the state of the data
     if (isLoading) {
         return <Loading isLoading={isLoading} />;
+    } else if (token) {
+        return (
+            <Stack sx={{ width: "100%", height: "100vh", alignItems: "center", justifyContent: "center" }}>
+                <Typography textAlign="center" variant="h4" color="primary">You Are Already Logged In</Typography>
+            </Stack>
+        );
     } else {
         return (
             <Stack sx={{ width: "100%", height: "100vh", alignItems: "center", justifyContent: "center" }}>

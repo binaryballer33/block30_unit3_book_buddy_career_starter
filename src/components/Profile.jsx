@@ -3,9 +3,8 @@ import { Link } from "react-router-dom";
 import { Stack, Typography } from "@mui/material";
 import { useGetProfileQuery } from "../api/libraryApi";
 import { Loading, Error } from "../components";
-import { useSelector } from "react-redux";
 
-const RenderSignInPrompt = ({ profile }) => {
+const RenderSignInPrompt = () => {
     return (
         <Stack sx={{ width: "100%", height: "100vh", alignItems: "center", justifyContent: "center" }}>
             <Typography variant="h5" color="primary" component={Link} to="/authenticate" sx={{ textDecoration: "none", textAlign: "center" }}>Sign In / Up To See Your Profile</Typography>
@@ -13,7 +12,7 @@ const RenderSignInPrompt = ({ profile }) => {
     );
 }
 
-// TODO: build the private profile page
+// TODO: build the private profile page, make it look cooler
 const RenderProfile = ({ profile }) => {
     return (
         <Stack sx={{ width: "100%", height: "100vh", alignItems: "center", justifyContent: "center" }}>
@@ -24,12 +23,12 @@ const RenderProfile = ({ profile }) => {
 }
 
 const Profile = () => {
-    const token = useSelector((state) => state.auth.token);
+    const token = localStorage.getItem("token");
     const { data, error, isLoading } = useGetProfileQuery(token)
 
     if (isLoading) {
         return <Loading isLoading={isLoading} />;
-    } else if (!data) {
+    } else if (!token) {
         return <RenderSignInPrompt />
     } else if (error) {
         return <Error error={error} />;
