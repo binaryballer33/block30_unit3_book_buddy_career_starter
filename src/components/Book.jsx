@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Card, CardContent, CardMedia, Typography, Button, Stack, Divider, Box } from "@mui/material";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { useGetBookQuery, useUpdateBookAvailabilityMutation } from "../api/libraryApi";
 import { Loading, Error } from "../components";
 import { capitalize } from "../utils/helperFunctions";
@@ -25,12 +25,8 @@ const RenderBook = ({ book }) => {
     }
 
     const handleUpdateBookAvailability = async () => {
-        if(token) {
-            const changedBook = await updateAvailability({ id: id, availability: !modifiableBook.available, token: token})
-            setModifiableBook(changedBook.data.book)
-        } else {
-            alert("You must be logged in to update book availability")
-        }
+        const changedBook = await updateAvailability({ id: id, availability: !modifiableBook.available, token: token})
+        setModifiableBook(changedBook.data.book)
     }
 
     if (isLoading) {
@@ -39,10 +35,11 @@ const RenderBook = ({ book }) => {
         return <Error error={isError} />;
     } else {
         return (
-            <Stack sx={{ alignItems: "center", justifyContent: "center", height: "99vh", flexDirection: { xs: "column", md: "row" } }}>
-                <Box sx={{  }}>
-                    <Button variant="contained" color="primary" sx={{ marginBottom: 2, marginRight: 5 }} onClick={handleUpdateBookAvailability}>Toggle Availability</Button>
-                </Box>
+            <Stack sx={{ alignItems: "center", justifyContent: "center", height: "99vh" }}>
+                { token 
+                    ? <Button variant="contained" color="primary" sx={{ marginBottom: 2, marginRight: 5 }} onClick={handleUpdateBookAvailability}>Toggle Availability</Button> 
+                    : <Button variant="contained" color="primary" sx={{ marginBottom: 2, marginRight: 5 }} onClick={ () => navigate('/signin') }>Sign In To Toggle Availability</Button> 
+                }
 
                 <Card elevation={3} sx={{ width: { xs: "90%", md: "40%" }, height: "85%", overflow: "scroll", m:1, textAlign: "center", border: `3px solid ${availabilityColor}`}}>
                     <CardMedia image={modifiableBook.coverimage} alt={modifiableBook.title} component="img" sx={{ width: "100%", height: 400, objectFit: "fill" }} />
