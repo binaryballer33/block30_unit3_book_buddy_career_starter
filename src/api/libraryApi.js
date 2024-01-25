@@ -42,6 +42,16 @@ export const libraryApi = createApi({
 		}),
 
 		// auth endpoints
+		getProfile: builder.query({
+			query: (token) => ({
+				url: '/api/users/me',
+				method: "GET",
+				headers: {
+					'Content-Type': 'application/json',
+					'Authorization': `Bearer ${token}`
+				}
+			})
+		}), 
 		register: builder.mutation({
 			query: (user) => ({
 				url: '/api/users/register',
@@ -62,16 +72,6 @@ export const libraryApi = createApi({
 				}
 			})
 		}),
-		getProfile: builder.query({
-			query: (token) => ({
-				url: '/api/users/me',
-				method: "GET",
-				headers: {
-					'Content-Type': 'application/json',
-					'Authorization': `Bearer ${token}`
-				}
-			})
-		}), 
 	}),
 });
 
@@ -83,7 +83,7 @@ export const {
 	useUpdateBookAvailabilityMutation,
 	
 	// auth endpoints
+	useGetProfileQuery,
 	useRegisterMutation,
 	useLoginMutation,
-	useGetProfileQuery,
 } = libraryApi;

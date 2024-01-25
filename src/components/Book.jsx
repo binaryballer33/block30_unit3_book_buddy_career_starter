@@ -25,8 +25,12 @@ const RenderBook = ({ book }) => {
     }
 
     const handleUpdateBookAvailability = async () => {
-        const changedBook = await updateAvailability({ id: id, availability: !modifiableBook.available, token: token})
-        setModifiableBook(changedBook.data.book)
+        if(token) {
+            const changedBook = await updateAvailability({ id: id, availability: !modifiableBook.available, token: token})
+            setModifiableBook(changedBook.data.book)
+        } else {
+            alert("You must be logged in to update book availability")
+        }
     }
 
     if (isLoading) {

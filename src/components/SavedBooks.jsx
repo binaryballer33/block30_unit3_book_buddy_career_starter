@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { Stack, Typography } from "@mui/material";
 import { Loading, Error } from "../components";
+import { useGetProfileQuery } from "../api/libraryApi";
 
 const RenderSignInPrompt = () => {
     return (
