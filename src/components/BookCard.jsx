@@ -16,7 +16,7 @@ const BookCard = ({ book }) => {
     }
 
     const handleCheckout = () => {
-        console.log("User: ", user);
+        
     }
 
     const availabilityColor = book?.available ? "green" : "red";

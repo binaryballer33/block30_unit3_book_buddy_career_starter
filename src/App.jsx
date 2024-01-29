@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
-import { Books, Book, Authenticate, NavBar, Profile, SavedBooks, SignIn, SignUp, LogOut } from './components'
+import { Books, Book, Authenticate, NavBar, Profile, SavedBooks, SignIn, SignUp, LogOut, AvailableBooks, ReservedBooks } from './components'
 
 function App() {
   {/* Complete the React components needed to allow users to browse a library catalog, check out books, review their account, and return books that they've finished reading. */}
@@ -18,8 +18,8 @@ function App() {
         <Route path="/logout" element={<LogOut />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/savedbooks" element={<SavedBooks />} />
-        <Route path="/reservedbooks" element={<div>Implement Me, Map through Books and return list of books with available = true status</div>} />
-        <Route path="/availablebooks" element={<div>Implement Me, Map through Books and return list of books with available = false status</div>} />
+        <Route path="/reservedbooks" element={<ReservedBooks />} />
+        <Route path="/availablebooks" element={<AvailableBooks />} />
       </Routes>
     </Router>
   )
