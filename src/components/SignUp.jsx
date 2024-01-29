@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   Box,
   Paper,
@@ -19,6 +20,7 @@ import { Link } from "react-router-dom";
 
 // TODO: - maybe do a redirect once the user signs in, to the home page with the books
 const SignUp = ({ width }) => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({ firstname: "", lastname: "", email: "", password: "" });
   const [focusedField, setFocusedField] = useState("");
   const textFields = ["First Name", "Last Name", "Email", "Password"];
@@ -37,6 +39,14 @@ const SignUp = ({ width }) => {
   const handleClearForm = () => {
     setFormData({ firstname: "", lastname: "", email: "", password: "" });
   }
+
+  useEffect(() => {
+    if (token) {
+        setTimeout(() => {
+            navigate("/")
+        }, 3000)
+    }
+  }, [token])
 
   if (isLoading) {
     return <Loading isLoading={isLoading} />;

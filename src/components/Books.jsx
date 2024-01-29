@@ -3,6 +3,7 @@ import { Grid, Stack } from "@mui/material";
 import { useGetBooksQuery } from "../api/libraryApi";
 import { Error, Loading, BookCard, SearchBar } from '../components'
 
+// TODO: when you go back from Book after changing the availability, the book card doesn't update
 const RenderBooks = ({ books }) => {
 	const [searchString, setSearchString] = useState("");
 	const [filteredBooks, setFilteredBooks] = useState(books)

@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import {
     Box,
@@ -18,6 +19,7 @@ import { transformTextField } from "../utils/helperFunctions";
 
 // TODO: - maybe do a redirect once the user signs in, to the home page with the books
 const SignIn = ({ width }) => {
+    const navigate = useNavigate();
     const [formData, setFormData] = useState({ email: "", password: "" });
     const [focusedField, setFocusedField] = useState("");
     const textFields = ["Email", "Password"];
@@ -37,9 +39,18 @@ const SignIn = ({ width }) => {
         setFormData({ email: "", password: "" });
     }
 
+    // redirect to home page if the user is already logged in
+    useEffect(() => {
+        if (token) {
+            setTimeout(() => {
+                navigate("/")
+            }, 3000)
+        }
+    }, [token])
+
     if (isLoading) {
         return <Loading isLoading={isLoading} />;
-    } else if (token) {
+    } else if (token) {        
         return (
             <Stack sx={{ width: "100%", height: "100vh", alignItems: "center", justifyContent: "center" }}>
                 <Typography textAlign="center" variant="h4" color="primary">You Are Already Logged In</Typography>

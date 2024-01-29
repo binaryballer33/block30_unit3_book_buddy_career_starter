@@ -17,11 +17,11 @@ const authSlice = createSlice({
             state.message = payload.message 
         })
         builder.addMatcher(libraryApi.endpoints.login.matchFulfilled, (state, { payload }) => {
-            state.token
+            state.token = payload.token
             state.message = payload.message 
         })
         builder.addMatcher(libraryApi.endpoints.getProfile.matchFulfilled, (state, { payload }) => {
-            state.user = { ...payload.user }
+            state.user = { ...payload }
         })
     }
 });

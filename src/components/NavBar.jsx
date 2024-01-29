@@ -8,7 +8,7 @@ import bookLogo from "../assets/books.png"
 // TODO: - give a option to logout and it will remove the token from local storage, if trying to log out when not logged in, do nothing
 const NavBar = () => {
     // links and account options
-    const pages = ['Auth'];
+    const pages = ['Reserved Books', 'Available Books', 'Auth'];
     const settings = ['Profile', 'Saved Books', 'Sign In', 'Sign Up', 'Log Out'];
 
     // state variables
@@ -61,7 +61,7 @@ const NavBar = () => {
                         >
                             {pages.map((page) => (
                                 <MenuItem key={page} onClick={handleCloseNavMenu}>
-                                    <Typography component={Link} to="/authenticate" sx={{ my: 2, color: 'inherit', display: 'block', textDecoration: "none", textAlign: "center" }}>{page}</Typography>
+                                    <Typography component={Link} to={`/${page.replace(' ', '').toLowerCase()}`} sx={{ my: 2, color: 'inherit', display: 'block', textDecoration: "none", textAlign: "center" }}>{page}</Typography>
                                 </MenuItem>
                             ))}
                         </Menu>
@@ -75,7 +75,7 @@ const NavBar = () => {
                     {/* create the NavBar links */}
                     <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' }, justifyContent: "end", mr: 2 }}>
                         {pages.map((page) => (
-                            <Button key={page} onClick={handleCloseNavMenu} component={Link} to="/authenticate" sx={{ my: 2, color: 'white', display: 'block', textDecoration: "none" }}>{page}</Button>
+                            <Button key={page} onClick={handleCloseNavMenu} component={Link} to={`/${page.replace(' ', '').toLowerCase()}`} sx={{ my: 2, color: 'white', display: 'block', textDecoration: "none" }}>{page}</Button>
                         ))}
                     </Box>
 

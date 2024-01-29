@@ -12,12 +12,14 @@ function App() {
       <Routes>
         <Route index element={<Books />} />
         <Route path="/:id" element={<Book />} />
-        <Route path="/authenticate" element={<Authenticate />} />
+        <Route path="/auth" element={<Authenticate />} />
         <Route path="/signin" element={<SignIn width={{ xs: "80%", md: "40%" }} />} />
         <Route path="/signup" element={<SignUp width={{ xs: "80%", md: "40%" }} />} />
         <Route path="/logout" element={<LogOut />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/savedbooks" element={<SavedBooks />} />
+        <Route path="/reservedbooks" element={<div>Implement Me, Map through Books and return list of books with available = true status</div>} />
+        <Route path="/availablebooks" element={<div>Implement Me, Map through Books and return list of books with available = false status</div>} />
       </Routes>
     </Router>
   )
