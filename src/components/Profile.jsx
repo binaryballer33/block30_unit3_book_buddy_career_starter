@@ -12,7 +12,6 @@ const RenderSignInPrompt = () => {
     );
 }
 
-// TODO: build the private profile page, make it look cooler
 const RenderProfile = ({ profile }) => {
     return (
         <Stack sx={{ width: "100%", height: "100vh", alignItems: "center", justifyContent: "center", flexDirection: { xs: "column", md: "row" } }}>

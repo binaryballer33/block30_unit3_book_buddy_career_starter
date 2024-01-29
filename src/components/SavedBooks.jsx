@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { Grid, Stack, Typography } from "@mui/material";
 import { Loading, Error, BookCard } from "../components";
-import { useGetProfileQuery } from "../api/libraryApi";
+import { useGetReservationsQuery } from "../api/libraryApi";
 
 const RenderSignInPrompt = () => {
     return (
@@ -12,17 +12,18 @@ const RenderSignInPrompt = () => {
     );
 }
 
-const RenderSavedBooks = ({ profile }) => {
+const RenderSavedBooks = ({ reservations }) => {    
     return (
         <Stack sx={{ width: "100%", height: { xs: 600, md: 800, lg: 875}, alignItems: "start", justifyContent: "center", overflow: "scroll", flexDirection: "row" }}>
-            {profile.books.length 
+            {reservations.reservation.length 
                 ? ( 
                     <Grid container sx={{ maxWidth: '100%', maxHeight: '90%', justifyContent: "center" }}>
-                        {profile.books.map((book) => (
+                        {reservations.reservation.map((book) => (
                                 <BookCard book={book} key={book.id}/>
                         ))}
                     </Grid>
-                ) : (
+                ) 
+                : (
                     <Typography variant="h5" color="primary" sx={{ textDecoration: "none", textAlign: "center" }}>You Have No Saved Books</Typography>
                 )
             }
@@ -32,7 +33,7 @@ const RenderSavedBooks = ({ profile }) => {
 
 const SavedBooks = () => {
     const token = localStorage.getItem("token");
-    const { data: profile, error, isLoading } = useGetProfileQuery(token)
+    const { data: reservations, error, isLoading } = useGetReservationsQuery(token)
 
     if (isLoading) {
         return <Loading isLoading={isLoading} />;
@@ -41,7 +42,7 @@ const SavedBooks = () => {
     } else if (error) {
         return <Error error={error} />;
     } else {
-        return <RenderSavedBooks profile={profile} />
+        return <RenderSavedBooks reservations={reservations} />
     }
 }
 

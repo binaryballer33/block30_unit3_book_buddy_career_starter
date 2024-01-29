@@ -21,11 +21,12 @@ export const libraryApi = createApi({
 			query: (id) => `/api/books/${id}`,
 		}),
 		getReservations: builder.query({
-			query: () => ({
+			query: (token) => ({
 				url: '/api/reservations',
 				method: "GET",
 				headers: {
 					'Content-Type': 'application/json',
+					'Authorization': `Bearer ${token}`
 				}
 			})
 		}),  
@@ -34,6 +35,16 @@ export const libraryApi = createApi({
 				url: `/api/books/${book.id}`,
 				method: 'PATCH',
 				body: { available: book.availability }, 
+				headers: {
+					'Content-Type': 'application/json',
+					'Authorization': `Bearer ${book.token}`
+				},
+			}),
+		}),
+		deleteReservation: builder.mutation({
+			query: (book) => ({
+				url: `/api/reservations/${book.id}`,
+				method: 'DELETE',
 				headers: {
 					'Content-Type': 'application/json',
 					'Authorization': `Bearer ${book.token}`
@@ -80,7 +91,9 @@ export const {
 	// book endpoints
     useGetBooksQuery,
     useGetBookQuery,
+	useGetReservationsQuery,
 	useUpdateBookAvailabilityMutation,
+	useDeleteReservationMutation,
 	
 	// auth endpoints
 	useGetProfileQuery,
