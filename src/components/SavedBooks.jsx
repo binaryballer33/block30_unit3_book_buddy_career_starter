@@ -19,9 +19,7 @@ const RenderSavedBooks = ({ profile }) => {
                 ? ( 
                     <Grid container sx={{ maxWidth: '100%', maxHeight: '90%', justifyContent: "center" }}>
                         {profile.books.map((book) => (
-                            <Grid item key={book.id}>
                                 <BookCard book={book} key={book.id}/>
-                            </Grid>
                         ))}
                     </Grid>
                 ) : (

@@ -26,7 +26,7 @@ const BookCard = ({ book }) => {
     bookDescription = capitalize(bookDescription);
 
     return (
-    <Grid item xs={12} sm={6} md={4} lg={3}>
+    <Grid item>
         <Tooltip title={bookTitle} placement="top" componentsProps={{}}>
             <Card elevation={3} sx={{ width: { xs: "100%", sm: 320 }, height: 550, m:1, border: `2px solid ${availabilityColor}` }}>
                 <CardMedia image={book.coverimage} alt={book.title} component="img" sx={{  width: { xs: "100%", sm: 320 }, height: 300, objectFit: "fill" }} />
