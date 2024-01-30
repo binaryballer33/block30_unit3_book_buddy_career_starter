@@ -5,12 +5,13 @@ import { useGetBooksQuery } from "../api/libraryApi";
 import BookCard from "./BookCard";
 
 const RenderReservedBooks = ({ books }) => {
+    const reservedBooks = books.filter(book => !book.available)
     return (
         <Stack sx={{ width: "100%", height: '100%', alignItems: "center", justifyContent: "center", overflow: "scroll" }}>
-            <Typography variant="h4" color="primary" mt={3}>Reserved Books</Typography>
+            <Typography variant="h4" color="primary" mt={3}>{reservedBooks.length} Reserved Books</Typography>
             <Grid container justifyContent="center">
-                {books.map((book, index) => (
-                    !book.available && <BookCard book={book} key={index}/>
+                {reservedBooks.map((book, index) => (
+                    <BookCard book={book} key={index}/>
                 ))}
             </Grid>
         </Stack>

@@ -9,7 +9,6 @@ const RenderBooks = ({ books }) => {
 	const [searchString, setSearchString] = useState("");
 	const [filteredBooks, setFilteredBooks] = useState(books)
 	const token = useSelector(state => state.auth.token)
-	console.log("token: ", token);
 	
 	useEffect(() => {
 		const latestFilter = books.filter(book => book.title.toLowerCase().includes(searchString.toLowerCase()))

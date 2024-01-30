@@ -14,7 +14,8 @@ const RenderSignInPrompt = () => {
 
 const RenderSavedBooks = ({ reservations }) => {    
     return (
-        <Stack sx={{ width: "100%", height: { xs: 600, md: 800, lg: 875}, alignItems: "start", justifyContent: "center", overflow: "scroll", flexDirection: "row" }}>
+        <Stack sx={{ width: "100%", height: { xs: 600, md: 800, lg: 875}, alignItems: "center", justifyContent: "center", overflow: "scroll" }}>
+            <Typography variant="h5" color="primary" sx={{ textDecoration: "none", mt: 2, mb: 2 }}>Your {reservations.reservation.length} Saved Books</Typography>
             {reservations.reservation.length 
                 ? ( 
                     <Grid container sx={{ maxWidth: '100%', maxHeight: '90%', justifyContent: "center" }}>

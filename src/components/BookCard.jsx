@@ -38,7 +38,7 @@ const BookCard = ({ book, checkoutIcon, removeIcon }) => {
         return (
             <Grid item>
                 <Tooltip title={bookTitle} placement="top" componentsProps={{}}>
-                    <Card elevation={3} sx={{ width: { xs: "100%", sm: 320 }, height: 550, m:1, border: `2px solid ${availabilityColor}` }}>
+                    <Card elevation={3} sx={{ width: 320, height: 550, m:1, border: `2px solid ${availabilityColor}` }}>
                         <CardMedia image={book.coverimage} alt={book.title} component="img" sx={{  width: { xs: "100%", sm: 320 }, height: 300, objectFit: "fill" }} />
                         <CardContent>
                             <Typography variant="h5" sx={{ overflowX: "scroll", whiteSpace: "nowrap", '&::-webkit-scrollbar': { display: "none" }, textAlign: "center"}}>{bookTitle}</Typography>
