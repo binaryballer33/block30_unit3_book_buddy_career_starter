@@ -34,7 +34,7 @@ const NavBar = () => {
     return (
         <AppBar position="sticky">
             <Container maxWidth="xl">
-                <Toolbar disableGutters sx={{ justifyContent: "space-around" }}>
+                <Toolbar disableGutters sx={{ justifyContent: "space-around", width: "100%" }}>
                     {/* When the screen size is small, change the look of the NavBar */}
                     <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
                         <IconButton size="large" aria-label="account of current user" aria-controls="menu-appbar" aria-haspopup="true" onClick={handleOpenNavMenu} color="inherit">

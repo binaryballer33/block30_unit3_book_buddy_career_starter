@@ -15,13 +15,13 @@ const RenderSignInPrompt = () => {
 const RenderProfile = ({ profile }) => {
     return (
         <Stack sx={{ width: "100%", height: "100vh", alignItems: "center", justifyContent: "center", flexDirection: { xs: "column", md: "row" } }}>
-            <Stack sx={{ flexGrow: 1, border: "1px solid black", height: "97vh", width: { xs: "100%", md: "30%" }, p: 2, marginLeft: { xs: 2, md: 0 } }}>
+            <Stack sx={{ flexGrow: 1, border: "1px solid black", alignItems: "center", height: "97vh", width: { xs: "90%", sm: "96%", md: "30%" }, p: 2 }}>
                 <Typography variant="h6" color="primary" sx={{ textDecoration: "none", mb: 3, mt: 2 }}>Welcome {profile.firstname} {profile.lastname}</Typography>
                 <Typography variant="h6" color="darkgoldenrod" sx={{ textDecoration: "none", mb: 3 }}>Email: {profile.email}</Typography>
                 <Typography variant="h6" color="purple" sx={{ textDecoration: "none", mb: 3 }}>Account Id: {profile.id}</Typography>
                 <Typography variant="h6" color="darkred" sx={{ textDecoration: "none", mb: 3 }}>You Have {profile.books.length} Saved Books</Typography>
             </Stack>
-            <Stack sx={{ flexGrow: 1, border: "1px solid black", width: "100%", height: { xs: "75vh", md: "97vh" }, p: 2, alignItems: "center" }}>
+            <Stack sx={{ flexGrow: 1, border: "1px solid black", width: "100%", height: { xs: "75vh", md: "97vh" }, p: { xs: 0, md: 2 }, alignItems: "center" }}>
                 <SavedBooks />
             </Stack>
         </Stack>
