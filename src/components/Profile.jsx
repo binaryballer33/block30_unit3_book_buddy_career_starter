@@ -19,6 +19,7 @@ const RenderProfile = ({ profile }) => {
                 <Typography variant="h6" color="primary" sx={{ textDecoration: "none", mb: 3, mt: 2 }}>Welcome {profile.firstname} {profile.lastname}</Typography>
                 <Typography variant="h6" color="darkgoldenrod" sx={{ textDecoration: "none", mb: 3 }}>Email: {profile.email}</Typography>
                 <Typography variant="h6" color="purple" sx={{ textDecoration: "none", mb: 3 }}>Account Id: {profile.id}</Typography>
+                <Typography variant="h6" color="darkred" sx={{ textDecoration: "none", mb: 3 }}>You Have {profile.books.length} Saved Books</Typography>
             </Stack>
             <Stack sx={{ flexGrow: 1, border: "1px solid black", width: "100%", height: { xs: "75vh", md: "97vh" }, p: 2, alignItems: "center" }}>
                 <Typography variant="h5" color="primary" sx={{ textDecoration: "none", mt: 2, mb: 2 }}>Your Saved Books</Typography>

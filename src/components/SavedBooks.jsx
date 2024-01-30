@@ -19,7 +19,7 @@ const RenderSavedBooks = ({ reservations }) => {
                 ? ( 
                     <Grid container sx={{ maxWidth: '100%', maxHeight: '90%', justifyContent: "center" }}>
                         {reservations.reservation.map((book) => (
-                                <BookCard book={book} key={book.id}/>
+                            <BookCard book={book} key={book.id} checkoutIcon={true} removeIcon={true}/>
                         ))}
                     </Grid>
                 ) 

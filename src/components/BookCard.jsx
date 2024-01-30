@@ -1,15 +1,20 @@
 import React from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Grid, Card, CardContent, CardMedia, Typography, Button, Tooltip, CardActions, IconButton } from "@mui/material";
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import RemoveIcon from '@mui/icons-material/Remove';
 import { capitalize } from "../utils/helperFunctions";
 import { useDeleteReservationMutation } from "../api/libraryApi";
 
-const BookCard = ({ book }) => {
+const BookCard = ({ book, checkoutIcon, removeIcon }) => {
     const navigate = useNavigate();
-    const location = useLocation();
     const token = localStorage.getItem("token");
+    const availabilityColor = book?.available ? "green" : "red";
+    let bookDescription = book.description.length > 100 ? book.description.slice(0, 100) + "..." : book.description;
+
+    let bookTitle = capitalize(book.title);
+    bookDescription = capitalize(bookDescription);
+
     
     const [deleteReservation, { data, isLoading, isError }] = useDeleteReservationMutation();
 
@@ -21,14 +26,12 @@ const BookCard = ({ book }) => {
         await deleteReservation({id, token});
     }
 
-    const availabilityColor = book?.available ? "green" : "red";
-    let bookDescription = book.description.length > 100 ? book.description.slice(0, 100) + "..." : book.description;
-
-    let bookTitle = capitalize(book.title);
-    bookDescription = capitalize(bookDescription);
+    const handleReserve = () => {
+        console.log("Reserve button clicked");
+    };
 
     if (isLoading) {
-        return "";
+        return null;
     } else if (isError) {
         return <Error error={isError} />;
     } else {
@@ -44,8 +47,8 @@ const BookCard = ({ book }) => {
                             <Typography variant="body2" sx={{ textAlign: "center" }}>{bookDescription}</Typography>
                         </CardContent>
                         <CardActions sx={{ display: "flex", justifyContent: "center"}}>
-                            {/* Only render the remove icon if user is logged in and viewing their saved books */}
-                            { (location.pathname === "/profile" || location.pathname === "/savedbooks") && 
+                            {/* Only render the remove icon if you pass the component removeIcon={true} */}
+                            { (removeIcon && token) &&
                                 <IconButton onClick={() => handleDelete(book.id)}>
                                     <Tooltip title="Delete Reservation" placement="bottom">
                                         <RemoveIcon sx={{ color: "darkred" }}/>
@@ -54,11 +57,14 @@ const BookCard = ({ book }) => {
                             }
                             <Button variant="contained" color="primary" sx={{ width: "70%" }} onClick={() => handleClick(book.id)}>See More</Button>
                             {/* Only let checkout button clickable if the book is available */}
-                            <IconButton disabled={!book.available}>
-                                <Tooltip title="Checkout" placement="bottom">
-                                    <AddShoppingCartIcon sx={{ color: availabilityColor }}/>
-                                </Tooltip>
-                            </IconButton>
+                            {/* Only render the checkout icon if you pass the component removeIcon={true} */}
+                            { (checkoutIcon && token) && 
+                                <IconButton disabled={!book.available}>
+                                    <Tooltip title="Checkout" placement="bottom">
+                                        <AddShoppingCartIcon sx={{ color: availabilityColor }}/>
+                                    </Tooltip>
+                                </IconButton>
+                            }
                         </CardActions>
                     </Card>
                 </Tooltip>

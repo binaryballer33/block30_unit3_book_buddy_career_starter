@@ -21,7 +21,6 @@ const authSlice = createSlice({
             state.message = payload.message 
         })
         builder.addMatcher(libraryApi.endpoints.getProfile.matchFulfilled, (state, { payload }) => {
-            console.log("payload", payload);
             state.user = { ...payload }
         })
     }
